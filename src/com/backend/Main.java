@@ -34,11 +34,12 @@ public class Main {
     }
     public static void main(String[] args) throws IOException {
         mergeFiles(
-                "C:\\Users\\johnn\\Documents\\School\\Third Year\\2nd Sem\\SQA\\Phase IV\\SQA_Bank_Back_End\\TransactionFiles",
+                "C:\\Users\\Goreshack\\Documents\\GitHub\\SQA_Bank_Back_End2\\TransactionFiles",
                 "Merged_Transactions.txt"
         );
         Bank testing = new Bank();
         testing.readAccounts("test.txt");
         testing.exportNewAccounts();
+        testing.readTransactions("sessiontransactions.txt");
     }
 }
