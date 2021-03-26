@@ -17,19 +17,19 @@ public class Transaction {
      08 - changeplan
      00 - end of session
    */
-  String transactionType;
+  private String transactionType;
 
   // The account name associated with the transaction
-  String accountName;
+  private String accountName;
 
   // The account number associated with the transaction
-  String acctNumber;
+  private String acctNumber;
 
   // Funds involved in the transaction
-  String funds;
+  private String funds;
 
   // Misc values at the end of the transaction line (can be null!)
-  String misc;
+  private String misc;
 
   // Checks if value is numerical
   public static boolean isNumeric(String str){
@@ -55,11 +55,6 @@ public class Transaction {
     String funds = transaction.substring(30, 39);
 
     @Nullable String misc = transaction.substring(39, 41);
-    //System.out.println(transactionCode);
-    //System.out.println(accountName);
-    //System.out.println(accountNumber);
-    //System.out.println(funds);
-    //System.out.println(misc);
 
     String[] splicedTransaction = {transactionCode, accountName, accountNumber, funds, misc};
     return splicedTransaction;
@@ -74,7 +69,7 @@ public class Transaction {
               isNumeric(acctNumber) &&
               isNumeric(funds);
     }catch(Exception e){
-      System.out.println(e);
+      System.out.println(e.toString());
     }
     return false;
   }

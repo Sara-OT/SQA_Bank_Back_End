@@ -38,7 +38,7 @@ public class Main {
                 "Merged_Transactions.txt"
         );
         Bank testing = new Bank();
-        testing.readAccounts("CurrentBankAccounts.txt");
+        testing.readAccounts("NewMasterAccounts.txt");
         testing.readTransactions("sessiontransactions.txt");
         testing.applyTransactions(testing.allAccounts, testing.allTransactions);
         testing.exportNewAccounts();

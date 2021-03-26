@@ -173,10 +173,10 @@ public class Bank {
                 // Getting the current account
                 Account account = accounts.get(i);
                 // The transaction amount specified in the transaction & current balance obtained from account.
-                float transactionAmount = Integer.parseInt(transaction.funds.trim());
+                float transactionAmount = Integer.parseInt(transaction.getFunds().trim());
                 float currentBalance = account.getBalance();
                 // If the details from the transaction matches the details from the account (name & num)
-                if (Integer.parseInt(transaction.acctNumber.trim()) == account.getNumber() && transaction.accountName.trim().equals(account.getName())){
+                if (Integer.parseInt(transaction.getAcctNumber().trim()) == account.getNumber() && transaction.getAccountName().trim().equals(account.getName())){
                     // Initially checking if account status is set to disabled
                     if(account.getAccountStatus().trim().equals("D")){
                         System.out.println("ERROR: Account status for account " + account.getNumber() + " " + account.getName() + " is disabled");
@@ -190,22 +190,16 @@ public class Bank {
                        If the type matches 01-03 and the balance will not go into the negative range
                        after the transaction has been applied then the transaction occurs.
                      */
-                    if((transaction.transactionType.trim().equals("01")
-                       || transaction.transactionType.trim().equals("02")
-                       || transaction.transactionType.trim().equals("03"))
+                    if((transaction.getTransactionType().trim().equals("01")
+                       || transaction.getTransactionType().trim().equals("02")
+                       || transaction.getTransactionType().trim().equals("03"))
                        && (currentBalance - transactionAmount - normalDebit) > 0.00
                        && account.getAccountStatus().trim().equals("A")){
                         if(account.getStudentPlan()) {
-                            //System.out.println(account.getBalance());
-                            //System.out.println(transaction.funds);
                             account.setBalance(roundFloat(currentBalance - transactionAmount - studentDebit, 2));
                         }else{
-                            //System.out.println((currentBalance - transactionAmount - normalDebit) > 0.00);
-                            //System.out.println(transaction.funds);
                             account.setBalance(roundFloat(currentBalance - transactionAmount - normalDebit, 2));
                         }
-                        //System.out.println(roundFloat(account.getBalance(),2));
-                        //System.out.println(account.getTransactions());
                         account.setTransactionCount(account.getTransactions()+1);
                     /*Checking if transaction is one of:
                     01 - withdrawal
@@ -215,14 +209,14 @@ public class Bank {
                     Will output an error in the console letting you know an insufficient funds error has occurred. 
                     */
                      
-                    }else if(transaction.transactionType.trim().equals("01")
-                            || transaction.transactionType.trim().equals("02")
-                            || transaction.transactionType.trim().equals("03")
+                    }else if(transaction.getTransactionType().trim().equals("01")
+                            || transaction.getTransactionType().trim().equals("02")
+                            || transaction.getTransactionType().trim().equals("03")
                             && (currentBalance - transactionAmount - normalDebit) < 0.00
                             && account.getAccountStatus().equals("A")){
                         System.out.println("ERROR: Insufficient funds to process transaction for " + account.getName()
                                 + " " + account.getNumber() + ". Only have " + account.getBalance()
-                                + " need " + Float.parseFloat(transaction.funds) + " funds.");
+                                + " need " + Float.parseFloat(transaction.getFunds()) + " funds.");
                         continue;
                     }
                     /* The deposit transaction 04
@@ -232,7 +226,7 @@ public class Bank {
                        the debiting fee will then put the user into the negative range.
                      */
                     
-                    if(transaction.transactionType.trim().equals("04")
+                    if(transaction.getTransactionType().trim().equals("04")
                        && (currentBalance + transactionAmount) < 100000
                        && (currentBalance + transactionAmount - normalDebit) > 0.00){
                         if(account.getStudentPlan()) {
@@ -241,22 +235,22 @@ public class Bank {
                         account.setTransactionCount(account.getTransactions()+1);
 
                     }
-                    // 
-                    if(transaction.transactionType.trim().equals("05")){
+                    // If account number and account name are equivalent we know that this account already exists
+                    if(transaction.getTransactionType().trim().equals("05")){
                         System.out.println("ERROR: Account creation failed. Account "
                                 + account.getNumber() + " under " + account.getName() + " already exists.");
                         continue;
                     }
                     // Delete transaction, will delete account from list once transaction occurs.
-                    if(transaction.transactionType.trim().equals("06")){
+                    if(transaction.getTransactionType().trim().equals("06")){
                         allAccounts.remove(account);
                         continue;
                     }
                     // Disable account transaction
-                    if(transaction.transactionType.trim().equals("07")){
+                    if(transaction.getTransactionType().trim().equals("07")){
                         account.setIsActive("D ");
                     }
-                    if(transaction.transactionType.trim().equals("08")){
+                    if(transaction.getTransactionType().trim().equals("08")){
                         if(account.getStudentPlan()){
                             account.setStudentPlan(false);
                         }else{
