@@ -30,6 +30,8 @@ public class Transaction {
 
   // Misc values at the end of the transaction line (can be null!)
   String misc;
+
+  // Checks if value is numerical
   public static boolean isNumeric(String str){
     try {
       Double.parseDouble(str);
@@ -38,6 +40,8 @@ public class Transaction {
       return false;
     }
   }
+
+
 
   // Hard coded splicer for transaction handling
   public static String[] spliceTransaction(String transaction){

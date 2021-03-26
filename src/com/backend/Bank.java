@@ -3,11 +3,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
-
+import java.text.DecimalFormat;
 public class Bank {
-    private List<Account> allAccounts = new ArrayList<Account>();
-    private static List<Transaction> allTransactions = new ArrayList<Transaction>();
+    public List<Account> allAccounts = new ArrayList<Account>();
+    public static List<Transaction> allTransactions = new ArrayList<Transaction>();
     // This method reads the master bank account file from the previous day and stores all the accounts in a list as
     // account objects
     public void readAccounts(String masterFile) throws FileNotFoundException {
@@ -31,7 +33,7 @@ public class Bank {
             String[] currentAccount = { unparsedAccounts.get(i).substring(0, 5),
                                         unparsedAccounts.get(i).substring(6, 26),
                                         unparsedAccounts.get(i).substring(27, 29),
-                                        unparsedAccounts.get(i).substring(30, 38),
+                                        unparsedAccounts.get(i).substring(29, 38),
                                         unparsedAccounts.get(i).substring(39, 42) };
 
             // Creating a new Account object
@@ -60,8 +62,12 @@ public class Bank {
 
             // A string for the account number; the length of the account number will always be five, so we only need
             // to add a space at the end
-            String accountNumber = Integer.toString(allAccounts.get(i).getNumber()) + " ";
-
+            String accountNumber = Integer.toString(allAccounts.get(i).getNumber());
+            for(int j = accountNumber.length(); j < 5; j++){
+                accountNumber = "0" + accountNumber;
+            }
+            accountNumber += " ";
+            
             // Appending the account number to the accountToString variable
             accountToString += accountNumber;
 
@@ -79,7 +85,7 @@ public class Bank {
             }
 
             // A string for the account status
-            String accountStatus = allAccounts.get(i).getAccountStatus() + " ";
+            String accountStatus = allAccounts.get(i).getAccountStatus();// + " ";
 
             // Appending the account status to the accountToString variable
             accountToString += accountStatus;
@@ -88,9 +94,13 @@ public class Bank {
             String accountBalance = Float.toString(allAccounts.get(i).getBalance());
 
             // Looping through the remaining characters that need to be zero at the front of the accountBalance string
-            for (int j = 0; j < 8 - accountBalance.length(); j++) {
+            for (int j = accountBalance.length(); j < 7; j++) {
                 accountBalance = "0" + accountBalance;
             }
+            if(accountBalance.length() < 8){
+                accountBalance += "0";
+            }
+            
 
             // Appending the account balance to the accountToString variable with a space an extra space at the end to
             // allow for proper formatting in the Master Bank Accounts File
@@ -100,7 +110,7 @@ public class Bank {
             String accountTransactions = Integer.toString(allAccounts.get(i).getTransactions());
 
             // Looping through the remaining characters that need to be zero at the front of accountTransactions
-            for (int j = 0; j < 4 - accountTransactions.length(); j++) {
+            for (int j = accountTransactions.length(); j < 4; j++) {
                 accountTransactions = "0" + accountTransactions;
             }
 
@@ -144,7 +154,121 @@ public class Bank {
             }
 
         }
+
         System.out.println("Finished parsing transactions");
     }
+    private static float roundFloat(float f, int places){
+        BigDecimal bigDecimal = new BigDecimal(Float.toString(f));
+        bigDecimal = bigDecimal.setScale(places, RoundingMode.HALF_UP);
+        return bigDecimal.floatValue();
+    }
+    public void applyTransactions(List<Account> accounts, List<Transaction> transactions){
+        // Setting debits to be applied dependent on whether the account is student or normal plan
+        float studentDebit = 0.05f;
+        float normalDebit = 0.10f;
+        // Looping through each transaction in the transaction list obtained from file
+        for(Transaction transaction: transactions){
+            // Looping through each account in accounts list obtained from file
+            for(int i = 0; i < accounts.size(); i++)/*for(Account account: accounts)*/ {
+                // Getting the current account
+                Account account = accounts.get(i);
+                // The transaction amount specified in the transaction & current balance obtained from account.
+                float transactionAmount = Integer.parseInt(transaction.funds.trim());
+                float currentBalance = account.getBalance();
+                // If the details from the transaction matches the details from the account (name & num)
+                if (Integer.parseInt(transaction.acctNumber.trim()) == account.getNumber() && transaction.accountName.trim().equals(account.getName())){
+                    // Initially checking if account status is set to disabled
+                    if(account.getAccountStatus().trim().equals("D")){
+                        System.out.println("ERROR: Account status for account " + account.getNumber() + " " + account.getName() + " is disabled");
+                        continue;
+                    }
+                    /* Checking if transaction is one of:
+                       01 - withdrawal
+                       02 - transfer
+                       03 - paybill
+                       Applying transactions which withdraw money from the account
+                       If the type matches 01-03 and the balance will not go into the negative range
+                       after the transaction has been applied then the transaction occurs.
+                     */
+                    if((transaction.transactionType.trim().equals("01")
+                       || transaction.transactionType.trim().equals("02")
+                       || transaction.transactionType.trim().equals("03"))
+                       && (currentBalance - transactionAmount - normalDebit) > 0.00
+                       && account.getAccountStatus().trim().equals("A")){
+                        if(account.getStudentPlan()) {
+                            //System.out.println(account.getBalance());
+                            //System.out.println(transaction.funds);
+                            account.setBalance(roundFloat(currentBalance - transactionAmount - studentDebit, 2));
+                        }else{
+                            //System.out.println((currentBalance - transactionAmount - normalDebit) > 0.00);
+                            //System.out.println(transaction.funds);
+                            account.setBalance(roundFloat(currentBalance - transactionAmount - normalDebit, 2));
+                        }
+                        //System.out.println(roundFloat(account.getBalance(),2));
+                        //System.out.println(account.getTransactions());
+                        account.setTransactionCount(account.getTransactions()+1);
+                    /*Checking if transaction is one of:
+                    01 - withdrawal
+                    02 - transfer
+                    03 - paybill
+                    & if the transaction will put the account below a balance of zero (including debiting fee)
+                    Will output an error in the console letting you know an insufficient funds error has occurred. 
+                    */
+                     
+                    }else if(transaction.transactionType.trim().equals("01")
+                            || transaction.transactionType.trim().equals("02")
+                            || transaction.transactionType.trim().equals("03")
+                            && (currentBalance - transactionAmount - normalDebit) < 0.00
+                            && account.getAccountStatus().equals("A")){
+                        System.out.println("ERROR: Insufficient funds to process transaction for " + account.getName()
+                                + " " + account.getNumber() + ". Only have " + account.getBalance()
+                                + " need " + Float.parseFloat(transaction.funds) + " funds.");
+                        continue;
+                    }
+                    /* The deposit transaction 04
+                       Checks if transaction amount plus the current balance will put the balance over maximum specified
+                       Also checks if current balance + transaction amount - the debit fee is over 0.00
+                       Important for edge cases where say the account has 0.02 current balance and the user deposits 0.01
+                       the debiting fee will then put the user into the negative range.
+                     */
+                    
+                    if(transaction.transactionType.trim().equals("04")
+                       && (currentBalance + transactionAmount) < 100000
+                       && (currentBalance + transactionAmount - normalDebit) > 0.00){
+                        if(account.getStudentPlan()) {
+                            account.setBalance(roundFloat(account.getBalance() + transactionAmount - studentDebit,2));
+                        }else{account.setBalance(roundFloat(account.getBalance() + transactionAmount - normalDebit, 2));}
+                        account.setTransactionCount(account.getTransactions()+1);
+
+                    }
+                    // 
+                    if(transaction.transactionType.trim().equals("05")){
+                        System.out.println("ERROR: Account creation failed. Account "
+                                + account.getNumber() + " under " + account.getName() + " already exists.");
+                        continue;
+                    }
+                    // Delete transaction, will delete account from list once transaction occurs.
+                    if(transaction.transactionType.trim().equals("06")){
+                        allAccounts.remove(account);
+                        continue;
+                    }
+                    // Disable account transaction
+                    if(transaction.transactionType.trim().equals("07")){
+                        account.setIsActive("D ");
+                    }
+                    if(transaction.transactionType.trim().equals("08")){
+                        if(account.getStudentPlan()){
+                            account.setStudentPlan(false);
+                        }else{
+                            account.setStudentPlan(true);
+                        }
+                    }
+
+                }
+
+            }
+        }
+    }
+
 
 }

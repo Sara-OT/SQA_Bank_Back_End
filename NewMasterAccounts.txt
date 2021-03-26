@@ -1,2 +1,16 @@
-10001 Ryan Guenther        AS 0023.0 001
-10002 Testing              AN 00100.0 000
+00005 logintest            A 00000.00 0000
+00006 logouttest           A 00000.00 0000
+00007 withdrawaltest       A 50000.00 0000
+00008 withdrawaltest2      A 65000.00 0000
+00009 transfertest         A 00500.00 0000
+00010 transfertest2        A 09999.90 0001
+00011 createtest           A 00000.00 0000
+00013 changeplantest       A 00000.00 0000
+00014 disabletest          D 00000.00 0000
+00015 disabletest2         D 00000.00 0000
+00889 deletetest1          A 15000.00 0000
+00151 admintestcase        A 15000.00 0000
+00152 standardtestcase     A 15000.00 0000
+00153 lowerlimittestcase   A 00000.00 0000
+00154 upperlimittestcase   A 25000.00 0000
+00155 depowithdrawal       A 00000.00 0000

@@ -38,8 +38,10 @@ public class Main {
                 "Merged_Transactions.txt"
         );
         Bank testing = new Bank();
-        testing.readAccounts("test.txt");
-        testing.exportNewAccounts();
+        testing.readAccounts("CurrentBankAccounts.txt");
         testing.readTransactions("sessiontransactions.txt");
+        testing.applyTransactions(testing.allAccounts, testing.allTransactions);
+        testing.exportNewAccounts();
+        
     }
 }

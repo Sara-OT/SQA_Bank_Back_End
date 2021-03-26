@@ -55,10 +55,27 @@ public class Account {
         return this.transactionCount;
     }
 
+    public void setBalance(float balance) {
+        this.balance = balance;
+    }
 
+    public void setNumber(int number) {
+        this.number = number;
+    }
 
+    public void setTransactionCount(int transactionCount) {
+        this.transactionCount = transactionCount;
+    }
 
+    public void setIsActive(String isActive) {
+        this.isActive = isActive;
+    }
 
+    public void setName(String name) {
+        this.name = name;
+    }
 
-
+    public void setStudentPlan(boolean studentPlan) {
+        isStudentPlan = studentPlan;
+    }
 }
