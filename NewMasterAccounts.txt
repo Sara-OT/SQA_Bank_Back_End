@@ -3,7 +3,7 @@
 00007 withdrawaltest       A 50000.00 0000
 00008 withdrawaltest2      A 65000.00 0000
 00009 transfertest         A 00500.00 0000
-00010 transfertest2        A 04999.80 0002
+00010 transfertest2        A 09999.90 0001
 00011 createtest           A 00000.00 0000
 00013 changeplantest       A 00000.00 0000
 00014 disabletest          D 00000.00 0000

@@ -1,6 +1,8 @@
 package com.backend;
 import java.io.*;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class Main {
     static void mergeFiles(String dirToMerge, String outputFile) throws IOException {
@@ -33,12 +35,13 @@ public class Main {
         System.out.println("Finished reading from " + dir.getName());
     }
     public static void main(String[] args) throws IOException {
+        Path relative = Paths.get("TransactionFiles");
         mergeFiles(
-                "C:\\Users\\Goreshack\\Documents\\GitHub\\SQA_Bank_Back_End2\\TransactionFiles",
+                relative.toString(),
                 "Merged_Transactions.txt"
         );
         Bank testing = new Bank();
-        testing.readAccounts("NewMasterAccounts.txt");
+        testing.readAccounts("CurrentBankAccounts.txt");
         testing.readTransactions("sessiontransactions.txt");
         testing.applyTransactions(testing.allAccounts, testing.allTransactions);
         testing.exportNewAccounts();
