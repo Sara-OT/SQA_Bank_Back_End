@@ -1,0 +1,3 @@
+00009 transfertest         A 00050000 0000
+00010 transfertest2        A 00015000 0000
+99999 END_OF_FILE          A 00000000 0000

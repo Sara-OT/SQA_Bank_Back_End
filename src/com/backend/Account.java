@@ -6,21 +6,21 @@ public class Account {
     int number;
 
     // Holds the name of the account holder
-    private String name;
+    String name;
 
     // The first character determines whether the account has been disabled (D) or is able to make transactions (A)
     // The second character determines whether the account is a student account (S) or a normal account (N)
-    private String isActive;
+    String isActive;
 
     // contains account's current total funds
-    private float balance;
+    float balance;
 
     // Holds the number of transactions performed on the account
-    private int transactionCount;
+    int transactionCount;
 
     //determines if the account’s plan has been changed to
     // non-student or not
-    private boolean isStudentPlan;
+    boolean isStudentPlan;
 
     public Account(int number, String name, String isActive, float balance, int transactionCount){
         this.number = number;

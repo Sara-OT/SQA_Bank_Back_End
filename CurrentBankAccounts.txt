@@ -15,3 +15,4 @@
 00153 lowerlimittestcase   A 00000000 0000
 00154 upperlimittestcase   A 00025000 0000
 00155 depowithdrawal       A 00000000 0000
+99999 END_OF_FILE          A 00000000 0000

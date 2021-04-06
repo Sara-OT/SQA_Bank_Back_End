@@ -12,11 +12,11 @@ public class Bank {
     public static List<Transaction> allTransactions = new ArrayList<Transaction>();
     // This method reads the master bank account file from the previous day and stores all the accounts in a list as
     // account objects
-    public void readAccounts(String masterFile) throws FileNotFoundException {
+    public static List<Account> readAccounts(String masterFile) throws FileNotFoundException {
 
         // This variable unparsedAccounts will contain all the account information in an unparsed string format
         List<String> unparsedAccounts = new ArrayList<String>();
-
+        List<Account> returnAccounts = new ArrayList<Account>();
         // This scanner will read through the master account file and insert every account into unparsedAccounts
         Scanner scanner = new Scanner(new File(masterFile));
         while (scanner.hasNextLine()) {
@@ -42,19 +42,20 @@ public class Bank {
                                              Integer.parseInt(currentAccount[4]));
 
             // Adding the account to the list of account objects
-            allAccounts.add(newAccount);
+            returnAccounts.add(newAccount);
         }
+        return returnAccounts;
     }
 
     // This method loops through the updated account objects and writes the new information to the new Master Bank
     // Accounts File
-    public void exportNewAccounts() throws IOException {
+    public List<Account> exportNewAccounts(List<Account> accounts, String fileName) throws IOException {
 
         // Opening the new Master Bank Accounts File to write to
-        PrintWriter newMasterAccountsFile = new PrintWriter("NewMasterAccounts.txt", "UTF-8");
+        PrintWriter newMasterAccountsFile = new PrintWriter(fileName, "UTF-8");
 
         // Looping through each account object in the allAccounts list
-        for (int i = 0; i < allAccounts.size(); i++) {
+        for (int i = 0; i < accounts.size(); i++) {
 
             // A string that will hold all the account information and will be used when writing to the new Master
             // Bank Accounts File
@@ -62,7 +63,7 @@ public class Bank {
 
             // A string for the account number; the length of the account number will always be five, so we only need
             // to add a space at the end
-            String accountNumber = Integer.toString(allAccounts.get(i).getNumber());
+            String accountNumber = Integer.toString(accounts.get(i).getNumber());
             for(int j = accountNumber.length(); j < 5; j++){
                 accountNumber = "0" + accountNumber;
             }
@@ -72,7 +73,7 @@ public class Bank {
             accountToString += accountNumber;
 
             // A string for the account name
-            String accountName = allAccounts.get(i).getName();
+            String accountName = accounts.get(i).getName();
 
             // Appending the account name to the accountToString variable
             accountToString += accountName;
@@ -85,13 +86,13 @@ public class Bank {
             }
 
             // A string for the account status
-            String accountStatus = allAccounts.get(i).getAccountStatus();// + " ";
+            String accountStatus = accounts.get(i).getAccountStatus();// + " ";
 
             // Appending the account status to the accountToString variable
             accountToString += accountStatus;
 
             // A string for the account number
-            String accountBalance = Float.toString(allAccounts.get(i).getBalance());
+            String accountBalance = Float.toString(accounts.get(i).getBalance());
 
             // Looping through the remaining characters that need to be zero at the front of the accountBalance string
             for (int j = accountBalance.length(); j < 7; j++) {
@@ -107,7 +108,7 @@ public class Bank {
             accountToString += accountBalance + " ";
 
             // A string for the account transaction count
-            String accountTransactions = Integer.toString(allAccounts.get(i).getTransactions());
+            String accountTransactions = Integer.toString(accounts.get(i).getTransactions());
 
             // Looping through the remaining characters that need to be zero at the front of accountTransactions
             for (int j = accountTransactions.length(); j < 4; j++) {
@@ -123,10 +124,12 @@ public class Bank {
 
         // Closing the new Master Bank Accounts File
         newMasterAccountsFile.close();
+        return accounts;
     }
 
-    public static void readTransactions(String transactionFile) throws FileNotFoundException {
+    public static List<Transaction> readTransactions(String transactionFile) throws FileNotFoundException {
         List<String> unparsedTransactions = new ArrayList<String>();
+        List<Transaction> returnTransaction = new ArrayList<Transaction>();
         Scanner scanner = new Scanner(new File(transactionFile));
         while (scanner.hasNextLine()) {
             unparsedTransactions.add(scanner.nextLine());
@@ -146,7 +149,7 @@ public class Bank {
             // Adding the account to the list of account objects
             if (newTransaction.validateTransaction(currentTransaction[0], currentTransaction[1], currentTransaction[2],
                     currentTransaction[3], currentTransaction[4])) {
-                allTransactions.add(newTransaction);
+                returnTransaction.add(newTransaction);
             } else {
                 System.out.print("ERROR: Occurred with following transaction: ");
                 System.out.print(currentTransaction[0] + " " + currentTransaction[1] + " " + currentTransaction[2]
@@ -156,13 +159,14 @@ public class Bank {
         }
 
         System.out.println("Finished parsing transactions");
+        return returnTransaction;
     }
     private static float roundFloat(float f, int places){
         BigDecimal bigDecimal = new BigDecimal(Float.toString(f));
         bigDecimal = bigDecimal.setScale(places, RoundingMode.HALF_UP);
         return bigDecimal.floatValue();
     }
-    public List<Account> applyTransactions(List<Account> accounts, List<Transaction> transactions){
+    public static List<Account> applyTransactions(List<Account> accounts, List<Transaction> transactions){
         // Setting debits to be applied dependent on whether the account is student or normal plan
         float studentDebit = 0.05f;
         float normalDebit = 0.10f;
@@ -213,7 +217,7 @@ public class Bank {
                                    && (transferToBalance + transactionAmount <= 100000)){
                                     transferTo.setBalance(transferToBalance + transactionAmount);
                                     transferLast = true;
-                                    continue;
+                                    
                                 }
                             }
                         }else{
@@ -226,7 +230,7 @@ public class Bank {
                                         && (transferToBalance + transactionAmount <= 100000)){
                                     transferTo.setBalance(transferToBalance + transactionAmount);
                                     transferLast = true;
-                                    continue;
+                                    
                                 }
                             }
                         }
@@ -269,22 +273,25 @@ public class Bank {
                     if(transaction.getTransactionType().trim().equals("05")){
                         System.out.println("ERROR: Account creation failed. Account "
                                 + account.getNumber() + " under " + account.getName() + " already exists.");
-                        continue;
+                        
                     }
                     // Delete transaction, will delete account from list once transaction occurs.
                     if(transaction.getTransactionType().trim().equals("06")){
-                        allAccounts.remove(account);
-                        continue;
+                        accounts.remove(account);
+                        
                     }
                     // Disable account transaction
                     if(transaction.getTransactionType().trim().equals("07")){
                         account.setIsActive("D ");
+                        account.setTransactionCount(account.getTransactions() + 1);
                     }
                     if(transaction.getTransactionType().trim().equals("08")){
                         if(account.getStudentPlan()){
                             account.setStudentPlan(false);
+                            account.setTransactionCount(account.getTransactions() + 1);
                         }else{
                             account.setStudentPlan(true);
+                            account.setTransactionCount(account.getTransactions() + 1);
                         }
                     }
 
