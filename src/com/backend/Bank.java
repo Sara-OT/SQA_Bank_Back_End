@@ -228,7 +228,7 @@ public class Bank {
                                 if(transferTo.getAccountStatus().trim().equals("A")
                                         && transaction.getTransactionType().trim().equals("02")
                                         && (transferToBalance + transactionAmount <= 100000)){
-                                    transferTo.setBalance(transferToBalance + transactionAmount);
+                                    transferTo.setBalance(roundFloat(transferToBalance + transactionAmount, 2));
                                     transferLast = true;
                                     
                                 }
