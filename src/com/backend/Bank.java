@@ -162,16 +162,19 @@ public class Bank {
         bigDecimal = bigDecimal.setScale(places, RoundingMode.HALF_UP);
         return bigDecimal.floatValue();
     }
-    public void applyTransactions(List<Account> accounts, List<Transaction> transactions){
+    public List<Account> applyTransactions(List<Account> accounts, List<Transaction> transactions){
         // Setting debits to be applied dependent on whether the account is student or normal plan
         float studentDebit = 0.05f;
         float normalDebit = 0.10f;
+        boolean transferLast = false;
+        List<Account> newAccountList = new ArrayList<Account>();
         // Looping through each transaction in the transaction list obtained from file
         for(Transaction transaction: transactions){
             // Looping through each account in accounts list obtained from file
             for(int i = 0; i < accounts.size(); i++)/*for(Account account: accounts)*/ {
                 // Getting the current account
                 Account account = accounts.get(i);
+                
                 // The transaction amount specified in the transaction & current balance obtained from account.
                 float transactionAmount = Integer.parseInt(transaction.getFunds().trim());
                 float currentBalance = account.getBalance();
@@ -180,6 +183,11 @@ public class Bank {
                     // Initially checking if account status is set to disabled
                     if(account.getAccountStatus().trim().equals("D")){
                         System.out.println("ERROR: Account status for account " + account.getNumber() + " " + account.getName() + " is disabled");
+                        continue;
+                    }
+                    // This will skip the transaction for the account where money is being transferred. 
+                    if(transferLast){
+                        transferLast = false;
                         continue;
                     }
                     /* Checking if transaction is one of:
@@ -197,8 +205,30 @@ public class Bank {
                        && account.getAccountStatus().trim().equals("A")){
                         if(account.getStudentPlan()) {
                             account.setBalance(roundFloat(currentBalance - transactionAmount - studentDebit, 2));
+                            if(i+1 < accounts.size()) {
+                                Account transferTo = accounts.get(i + 1);
+                                float transferToBalance = transferTo.getBalance();
+                                if(transferTo.getAccountStatus().trim().equals("A")
+                                   && transaction.getTransactionType().trim().equals("02")
+                                   && (transferToBalance + transactionAmount <= 100000)){
+                                    transferTo.setBalance(transferToBalance + transactionAmount);
+                                    transferLast = true;
+                                    continue;
+                                }
+                            }
                         }else{
                             account.setBalance(roundFloat(currentBalance - transactionAmount - normalDebit, 2));
+                            if(i+1 < accounts.size()) {
+                                Account transferTo = accounts.get(i + 1);
+                                float transferToBalance = transferTo.getBalance();
+                                if(transferTo.getAccountStatus().trim().equals("A")
+                                        && transaction.getTransactionType().trim().equals("02")
+                                        && (transferToBalance + transactionAmount <= 100000)){
+                                    transferTo.setBalance(transferToBalance + transactionAmount);
+                                    transferLast = true;
+                                    continue;
+                                }
+                            }
                         }
                         account.setTransactionCount(account.getTransactions()+1);
                     /*Checking if transaction is one of:
@@ -259,10 +289,33 @@ public class Bank {
                     }
 
                 }
-
+                if(transaction.getTransactionType().trim().equals("05")
+                   && i == accounts.size() - 1){
+                    Account newAccount = new Account(
+                            Integer.parseInt(transaction.getAcctNumber().trim()),
+                            transaction.getAccountName(),
+                            "A ",
+                            Float.parseFloat(transaction.getFunds().trim()),
+                            0
+                            
+                    );
+                    newAccountList.add(newAccount);
+                }
+                
             }
+            
+            
         }
+        accounts.addAll(newAccountList);
+        Collections.sort(accounts, new Comparator<Account>() {
+            @Override
+            public int compare(Account o1, Account o2) {
+                return Integer.compare(o1.number, o2.number);
+            }
+        });
+        return accounts;
     }
+    
 
 
 }

@@ -43,7 +43,7 @@ public class Main {
         Bank testing = new Bank();
         testing.readAccounts("CurrentBankAccounts.txt");
         testing.readTransactions("sessiontransactions.txt");
-        testing.applyTransactions(testing.allAccounts, testing.allTransactions);
+        testing.allAccounts = testing.applyTransactions(testing.allAccounts, testing.allTransactions);
         testing.exportNewAccounts();
         
     }

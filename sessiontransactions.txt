@@ -1,6 +1,7 @@
 02 transfertest         00009 00005000   
-02 transfertest2        00010 00005000   
+02 transfertest2        00010 00000500   
 02 disabletest2         00015 00000000   
 06 deletetest           00888 00000000   
 07 disabletest          00014 00000000   
+05 createtest5          00029 00000500   
 00                      00000 00000000   

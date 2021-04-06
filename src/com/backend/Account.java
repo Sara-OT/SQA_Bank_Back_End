@@ -3,7 +3,7 @@ package com.backend;
 public class Account {
 
     //holds the integer value for the account’s number which is used to identify it
-    private int number;
+    int number;
 
     // Holds the name of the account holder
     private String name;

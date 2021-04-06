@@ -2,7 +2,7 @@
 00006 logouttest           A 00000000 0000
 00007 withdrawaltest       A 00050000 0000
 00008 withdrawaltest2      A 00065000 0000
-00009 transfertest         A 00000500 0000
+00009 transfertest         A 00050000 0000
 00010 transfertest2        A 00015000 0000
 00011 createtest           A 00000000 0000
 00013 changeplantest       A 00000000 0000
