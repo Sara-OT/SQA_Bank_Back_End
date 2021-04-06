@@ -3,7 +3,7 @@
 
  */
 package com.backend;
-import com.sun.istack.internal.Nullable;
+
 
 public class Transaction {
   /* The transaction type associated with the transaction
@@ -55,7 +55,7 @@ public class Transaction {
 
     String funds = transaction.substring(30, 39);
 
-    @Nullable String misc = transaction.substring(39, 41);
+    String misc = transaction.substring(39, 41);
 
     String[] splicedTransaction = {transactionCode, accountName, accountNumber, funds, misc};
     return splicedTransaction;
@@ -63,7 +63,7 @@ public class Transaction {
 
 
 
-  public boolean validateTransaction(String transactionCode, String accountHolderName, String acctNumber, String funds, @Nullable String misc){
+  public boolean validateTransaction(String transactionCode, String accountHolderName, String acctNumber, String funds, String misc){
     try{
       return  transactionCode.length() + accountHolderName.length() + acctNumber.length() + funds.length() + misc.length() == 41 &&
               isNumeric(transactionCode) &&
@@ -74,7 +74,7 @@ public class Transaction {
     }
     return false;
   }
-  public Transaction(String transactionType, String accountName, String acctNumber, String funds, @Nullable String misc){
+  public Transaction(String transactionType, String accountName, String acctNumber, String funds, String misc){
     this.transactionType = transactionType;
     this.accountName = accountName;
     this.acctNumber = acctNumber;
@@ -116,7 +116,7 @@ public class Transaction {
     this.funds = funds;
   }
 
-  public void setMisc(@Nullable String misc) {
+  public void setMisc(String misc) {
     this.misc = misc;
   }
 }
