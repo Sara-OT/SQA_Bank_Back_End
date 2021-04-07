@@ -1,6 +1,8 @@
 package com.backend;
 /* *
 * Testing the readTransactions method from bank
+* 
+* LOOP and DECISION coverage.
 * */
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
