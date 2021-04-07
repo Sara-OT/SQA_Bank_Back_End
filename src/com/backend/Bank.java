@@ -157,8 +157,11 @@ public class Bank {
             }
 
         }
-
-        System.out.println("Finished parsing transactions");
+        if(returnTransaction.size() > 0){
+            System.out.println("Finished parsing transactions");
+        }else{
+            System.out.println("Parsing finished. Transaction list is empty.");
+        }
         return returnTransaction;
     }
     private static float roundFloat(float f, int places){
