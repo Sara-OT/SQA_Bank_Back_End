@@ -19,6 +19,13 @@ public class BankTest {
     * the for loop will also loop zero times. 
     * 
     * Explicitly however we are testing the for loop. 
+    * to clarify the code, the list testLoop is being populated by the method and loopTransactions is
+    * being populated in the test with what is expected.
+    * 
+    * Just to ensure we're both doing loop and decision coverage, I've also added the assertions to ensure we're
+    * getting the correct output.
+    * 
+    * ##This method is pretty simple so we didn't have any test failures.##
     * 
     * For this first test we loop zero times. Since we want the readTransactions method to loop zero times
     * we also don't have to populate the loopTransaction list. Since they will both be of size zero.

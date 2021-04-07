@@ -1,2 +1,0 @@
-02 transfertest         00009 00005000   
-02 transfertest         00009 00005000   

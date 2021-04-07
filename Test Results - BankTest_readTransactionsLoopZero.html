@@ -2,7 +2,7 @@
 <html xmlns:str="http://exslt.org/strings" xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Test Results &mdash; BankTest.applyTransactionTest</title>
+        <title>Test Results &mdash; BankTest.readTransactionsLoopZero</title>
         <style type="text/css">
           html {
             height: 100%
@@ -572,9 +572,9 @@ jQuery.cookie = function(name, value, options) {
     <body>
         <div id="container">
             <div id="header">
-                <div class="time" xmlns="">22 ms</div>
+                <div class="time" xmlns="">15 ms</div>
                 <h1>
-                    BankTest.applyTransactionTest: <strong><span class="total" xmlns="http://www.w3.org/1999/xhtml">1 total, </span><span class="failed">1 failed</span></strong>
+                    BankTest.readTransactionsLoopZero: <strong><span class="total" xmlns="http://www.w3.org/1999/xhtml">1 total, </span><span class="passed">1 passed</span></strong>
                 </h1>
                 <div id="treecontrol">
                     <ul>
@@ -591,31 +591,20 @@ jQuery.cookie = function(name, value, options) {
             </div>
             <div id="content">
                 <ul id="tree">
-                    C:\Users\Goreshack\.jdks\openjdk-16\bin\java.exe -ea -Didea.test.cyclic.buffer.size=1048576 &amp;quot;-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2020.3.3\lib\idea_rt.jar=54536:C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2020.3.3\bin&amp;quot; -Dfile.encoding=UTF-8 -classpath &amp;quot;C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2020.3.3\lib\idea_rt.jar;C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2020.3.3\plugins\junit\lib\junit5-rt.jar;C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2020.3.3\plugins\junit\lib\junit-rt.jar;C:\Program Files (x86)\Java\jdk1.8.0_144\jre\lib\charsets.jar;C:\Program Files (x86)\Java\jdk1.8.0_144\jre\lib\deploy.jar;C:\Program Files (x86)\Java\jdk1.8.0_144\jre\lib\ext\access-bridge-32.jar;C:\Program Files (x86)\Java\jdk1.8.0_144\jre\lib\ext\cldrdata.jar;C:\Program Files (x86)\Java\jdk1.8.0_144\jre\lib\ext\dnsns.jar;C:\Program Files (x86)\Java\jdk1.8.0_144\jre\lib\ext\jaccess.jar;C:\Program Files (x86)\Java\jdk1.8.0_144\jre\lib\ext\jfxrt.jar;C:\Program Files (x86)\Java\jdk1.8.0_144\jre\lib\ext\localedata.jar;C:\Program Files (x86)\Java\jdk1.8.0_144\jre\lib\ext\nashorn.jar;C:\Program Files (x86)\Java\jdk1.8.0_144\jre\lib\ext\sunec.jar;C:\Program Files (x86)\Java\jdk1.8.0_144\jre\lib\ext\sunjce_provider.jar;C:\Program Files (x86)\Java\jdk1.8.0_144\jre\lib\ext\sunmscapi.jar;C:\Program Files (x86)\Java\jdk1.8.0_144\jre\lib\ext\sunpkcs11.jar;C:\Program Files (x86)\Java\jdk1.8.0_144\jre\lib\ext\zipfs.jar;C:\Program Files (x86)\Java\jdk1.8.0_144\jre\lib\javaws.jar;C:\Program Files (x86)\Java\jdk1.8.0_144\jre\lib\jce.jar;C:\Program Files (x86)\Java\jdk1.8.0_144\jre\lib\jfr.jar;C:\Program Files (x86)\Java\jdk1.8.0_144\jre\lib\jfxswt.jar;C:\Program Files (x86)\Java\jdk1.8.0_144\jre\lib\jsse.jar;C:\Program Files (x86)\Java\jdk1.8.0_144\jre\lib\management-agent.jar;C:\Program Files (x86)\Java\jdk1.8.0_144\jre\lib\plugin.jar;C:\Program Files (x86)\Java\jdk1.8.0_144\jre\lib\resources.jar;C:\Program Files (x86)\Java\jdk1.8.0_144\jre\lib\rt.jar;C:\Users\Goreshack\Documents\GitHub\SQA_Bank_Back_End2\out\test\SQA_Bank_Back_End;C:\Users\Goreshack\Documents\GitHub\SQA_Bank_Back_End2\out\production\SQA_Bank_Back_End;C:\Users\Goreshack\.m2\repository\junit\junit\4.12\junit-4.12.jar;C:\Users\Goreshack\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar&amp;quot; com.intellij.rt.junit.JUnitStarter -ideVersion5 -junit4 com.backend.BankTest,applyTransactionTest
-Process finished with exit code -1
-
-                    <li class="level test failed open" xmlns="">
+                    <li xmlns="" class="level top open">
                         <span><em class="time">
-                                <div class="time">22 ms</div>
-                            </em><em class="status">failed</em>BankTest.applyTransactionTest</span>
+                                <div class="time">15 ms</div>
+                            </em>BankTest</span>
                         <ul>
-                            <li class="text">
-                                <span class="stdout">Finished parsing transactions<br/>44999.9<br/>20000.0<br/>0.0<br/></span>
-                            </li>
-                            <li class="text">
-                                <span class="stderr">java.lang.AssertionError: <br/></span>
-                            </li>
-                            <li class="text">
-                                <span class="stdout">Expected :<br/></span>
-                            </li>
-                            <li class="text">
-                                <span class="stderr">[com.backend.Account@d041cf, com.backend.Account@129a8472, com.backend.Account@1b0375b3]<br/></span>
-                            </li>
-                            <li class="text">
-                                <span class="stdout">Actual   :<br/></span>
-                            </li>
-                            <li class="text">
-                                <span class="stderr">[com.backend.Account@2f7c7260, com.backend.Account@2d209079, com.backend.Account@6bdf28bb]<br/><br/>	at org.junit.Assert.fail(Assert.java:88)<br/>	at org.junit.Assert.failNotEquals(Assert.java:834)<br/>	at org.junit.Assert.assertEquals(Assert.java:118)<br/>	at org.junit.Assert.assertEquals(Assert.java:144)<br/>	at com.backend.BankTest.applyTransactionTest(BankTest.java:27)<br/>	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)<br/>	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:78)<br/>	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)<br/>	at java.base/java.lang.reflect.Method.invoke(Method.java:567)<br/>	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)<br/>	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)<br/>	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)<br/>	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)<br/>	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)<br/>	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)<br/>	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)<br/>	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)<br/>	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)<br/>	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)<br/>	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)<br/>	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)<br/>	at org.junit.runners.ParentRunner.run(ParentRunner.java:363)<br/>	at org.junit.runner.JUnitCore.run(JUnitCore.java:137)<br/>	at com.intellij.junit4.JUnit4IdeaTestRunner.startRunnerWithArgs(JUnit4IdeaTestRunner.java:69)<br/>	at com.intellij.rt.junit.IdeaTestRunner$Repeater.startRunnerWithArgs(IdeaTestRunner.java:33)<br/>	at com.intellij.rt.junit.JUnitStarter.prepareStreamsAndStart(JUnitStarter.java:220)<br/>	at com.intellij.rt.junit.JUnitStarter.main(JUnitStarter.java:53)<br/></span>
+                            <li class="level test">
+                                <span><em class="time">
+                                        <div class="time">15 ms</div>
+                                    </em><em class="status">passed</em>readTransactionsLoopZero()</span>
+                                <ul>
+                                    <li class="text">
+                                        <span class="stdout">Parsing finished. Transaction list is empty.<br/></span>
+                                    </li>
+                                </ul>
                             </li>
                         </ul>
                     </li>
@@ -623,7 +612,7 @@ Process finished with exit code -1
             </div>
         </div>
         <div id="footer">
-            <p>Generated by IntelliJ IDEA on 2021-04-06, 8:48 a.m.</p>
+            <p>Generated by IntelliJ IDEA on 2021-04-06, 8:32 p.m.</p>
         </div>
     </body>
 </html>
