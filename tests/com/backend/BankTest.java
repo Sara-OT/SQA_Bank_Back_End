@@ -29,6 +29,13 @@ public class BankTest {
     * 
     * ##This method is pretty simple so we didn't have any test failures.##
     * 
+    * Total table:
+    * Loop Body    Input:
+    * Zero times   Empty transaction file
+    * Once         "02 transfertest         00009 00005000   " in transaction file
+    * Twice        "02 transfertest         00009 00005000   " times 2 in transaction file
+    * Many times   "02 transfertest         00009 00005000   " times N (in our case 11) in transaction file
+    * 
     * For this first test we loop zero times. Since we want the readTransactions method to loop zero times
     * we also don't have to populate the loopTransaction list. Since they will both be of size zero.
     * Since both lists are of size zero the while loop in the test will not execute, however I left it in
@@ -184,6 +191,15 @@ public class BankTest {
     *  Similar to above, we pass valid transactions into the method from a file which then processes the
     *  transactions and puts them into a list which is then returned.
     *  
+    *  The table for all tests is as follows:
+    *  Decision:    Input:
+    *  1 true       "02 transfertest         00009 00005000   "
+    *  1 false      "rw transfertest         00009 00005000   "
+    * 
+    *  2 true       "02 transfertest         00009 00005000   "
+    *  2 false      Empty transaction file
+    * 
+    * 
     *  To keep things simple this test utilizes a test file which contains 2 identical valid transactions
     *  "02 transfertest         00009 00005000   " 
     *  
@@ -294,14 +310,11 @@ public class BankTest {
     }
     /*  For this test we pass a transaction file that contains no transactions. Since no transactions are in the file,
      *  the second decision produces false since the size of the produced list must be greater than 0
-     *  To keep things simple this test utilizes a test file which contains 2 identical valid transactions
-     *  "02 transfertest         00009 00005000   "
-     *  and one invalid
-     *  "rw transfertest         00009 00005000   "
+     *
      *
      *  In keeping with the lecture notes this is
      *  Decision:    Input:
-     *  1 false      "rw transfertest         00009 00005000   "
+     *  2 false      Empty transaction file
      */
     @Test
     public void readTransactionsDecision2False() throws FileNotFoundException {
