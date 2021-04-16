@@ -51,8 +51,16 @@ public class Bank {
     // Accounts File
     public List<Account> exportNewAccounts(List<Account> accounts, String fileName) throws IOException {
 
+        // Added a list for new master accounts and current accounts
+        List<PrintWriter> writers = new ArrayList<PrintWriter>();
+
         // Opening the new Master Bank Accounts File to write to
         PrintWriter newMasterAccountsFile = new PrintWriter(fileName, "UTF-8");
+        writers.add(newMasterAccountsFile);
+
+        // Opening the new Master Bank Accounts File to write to
+        PrintWriter newCurrentAccountsFile = new PrintWriter("NewCurrentAccounts.txt", "UTF-8");
+        writers.add(newCurrentAccountsFile);
 
         // Looping through each account object in the allAccounts list
         for (int i = 0; i < accounts.size(); i++) {
@@ -119,11 +127,20 @@ public class Bank {
             accountToString += accountTransactions;
 
             // Writing the account to the new Master Bank Accounts File
-            newMasterAccountsFile.println(accountToString);
+            writers.get(0).println(accountToString);
+
+            // If an account is not disabled, add it to the current bank accounts file
+            if (accounts.get(i).getAccountStatus().equals("A ")) {
+                writers.get(1).println(accountToString);
+            }
         }
 
         // Closing the new Master Bank Accounts File
-        newMasterAccountsFile.close();
+        writers.get(0).close();
+
+        // Closing the new current bank accounts file
+        writers.get(1).close();
+
         return accounts;
     }
 
