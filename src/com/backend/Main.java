@@ -41,13 +41,19 @@ public class Main {
                 "Merged_Transactions.txt"
         );
 
+        if (args.length < 3) {
+            System.out.println("Usage: java program file1 file2 file3");
+            System.exit(0);
+        }
+
         // Command line inputs
         String masterAccounts = args[0];
         String currentAccounts = args[1];
+        String sessionTransactions = args[2];
 
         Bank testing = new Bank();
         testing.allAccounts = testing.readAccounts(masterAccounts);
-        testing.allTransactions = testing.readTransactions("sessiontransactions.txt");
+        testing.allTransactions = testing.readTransactions(sessionTransactions);
         testing.allAccounts = testing.applyTransactions(testing.allAccounts, testing.allTransactions);
         testing.exportNewAccounts(testing.allAccounts, "NewMasterAccounts.txt", currentAccounts);
         
