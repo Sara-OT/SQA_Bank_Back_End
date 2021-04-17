@@ -49,17 +49,17 @@ public class Bank {
 
     // This method loops through the updated account objects and writes the new information to the new Master Bank
     // Accounts File
-    public List<Account> exportNewAccounts(List<Account> accounts, String fileName) throws IOException {
+    public List<Account> exportNewAccounts(List<Account> accounts, String fileName1, String fileName2) throws IOException {
 
         // Added a list for new master accounts and current accounts
         List<PrintWriter> writers = new ArrayList<PrintWriter>();
 
         // Opening the new Master Bank Accounts File to write to
-        PrintWriter newMasterAccountsFile = new PrintWriter(fileName, "UTF-8");
+        PrintWriter newMasterAccountsFile = new PrintWriter(fileName1, "UTF-8");
         writers.add(newMasterAccountsFile);
 
         // Opening the new Master Bank Accounts File to write to
-        PrintWriter newCurrentAccountsFile = new PrintWriter("NewCurrentAccounts.txt", "UTF-8");
+        PrintWriter newCurrentAccountsFile = new PrintWriter(fileName2, "UTF-8");
         writers.add(newCurrentAccountsFile);
 
         // Looping through each account object in the allAccounts list

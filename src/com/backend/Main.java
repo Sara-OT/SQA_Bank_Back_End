@@ -40,11 +40,16 @@ public class Main {
                 relative.toString(),
                 "Merged_Transactions.txt"
         );
+
+        // Command line inputs
+        String masterAccounts = args[0];
+        String currentAccounts = args[1];
+
         Bank testing = new Bank();
-        testing.allAccounts = testing.readAccounts("CurrentBankAccounts.txt");
+        testing.allAccounts = testing.readAccounts(masterAccounts);
         testing.allTransactions = testing.readTransactions("sessiontransactions.txt");
         testing.allAccounts = testing.applyTransactions(testing.allAccounts, testing.allTransactions);
-        testing.exportNewAccounts(testing.allAccounts, "NewMasterAccounts.txt");
+        testing.exportNewAccounts(testing.allAccounts, "NewMasterAccounts.txt", currentAccounts);
         
     }
 }
